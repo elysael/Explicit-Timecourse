@@ -1,1 +1,1 @@
-# Explicit-Timecourse
+This project is analyzing the KURE and URPP data collected from Nov 20 2024 to March 12 2025. 
