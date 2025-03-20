@@ -1,0 +1,73 @@
+---
+title: "Explicit Timecourse"
+output: html_notebook
+---
+
+# Overview
+When participants experience a cursor rotation while making a reach to a target, they must compensate by deviating their hand movement in order to get a cursor straight to its target.  
+
+In this experiment, participants learned to counter a rotation and were instructed to report their aiming strategy by changing the direction of an arrow. 
+
+Rotation sizes introduced were 20, 30, 40, 50, and 60 degrees.
+
+<br>
+
+# Data
+We will be exploring:
+<br>1. The proportion of learners within each perturbation condition.
+<br>2. The proportion of aiming strategies as a function of rotation size.
+<br>3. The onset of an aiming strategy as a function of rotation size.
+<br>4. The magnitude of the aiming strategy as a function of rotation size.
+
+# Setup
+
+Get necessary packages:
+```{r}
+library('remotes')
+ip <- installed.packages()
+if ('Reach' %in% ip[,'Package']) {
+  if (ip[which(ip[,'Package'] == 'Reach'),'Version'] < "2025.02.16") {
+    remotes::install_github('thartbm/Reach')
+  }
+} else {
+  remotes::install_github('thartbm/Reach')
+}
+```
+
+Source project code:
+
+```{r}
+# download and handle data:
+source('R/')
+# scripts for group 2:
+source('R/')
+```
+
+## Analysis Steps - Visualization
+
+
+### Learning
+Did all participants learn to counter the pertuburtation at least 50% of the time?
+
+
+### Aiming Strategy Proportion
+Did all learners have a strategy (ie, deviate their aim)? 
+<br>Did the number of strategies vary as a function of rotation size.
+
+
+### Aiming Strategy Onset
+At what trial did participants begin deviating their hand reach (in the opposite direction of the rotation)?
+<br>At what trial did participants begin deviating their explicit aim?
+<br>Did the magnitude in aim change increase with larger rotation sizes?
+
+<br>
+
+## Analysis Steps - Statistics
+
+### Oneway ANOVA
+Does the proportion of participants who make a step differ across rotation sizes?
+<br>Does the average step size differ between rotation sizes?
+<br>Does the average trial at which the step occurs differ across rotation sizes?
+
+### Bayesian ANOVA
+A large Bayesian Factor (>10) suggests strong evidence for a difference.
