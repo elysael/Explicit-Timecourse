@@ -103,21 +103,19 @@ aim60files <- list.files(aim60_path, pattern = "*.csv", full.names = TRUE)
 
 all_reach_deviations <- list()
 
-# Loop over the group1_files to collect reach deviation data
+
 for (i in 1:length(aim60files)) {
   df <- read.csv(aim60files[i], stringsAsFactors = FALSE)
   all_reach_deviations[[i]] <- df$reachdeviation_deg
 }
 
-# Combine all the data into a data frame where each column represents a participant
-reach_deviation_matrix <- do.call(cbind, all_reach_deviations)
+combinedreachdev <- do.call(cbind,all_reach_deviations)
 
-# Calculate the mean for each trial (across all participants)
-average_reach_deviation <- apply(reach_deviation_matrix, 1, mean, na.rm = TRUE)
+average_reach_deviation <- apply(combinedreachdev, 1, mean, na.rm = TRUE)
 
-# Plot the average reach deviation per trial across all participants
-plot(average_reach_deviation, type = "l", col = "hotpink", lwd = 2, 
+plot(average_reach_deviation, type = "l", col = "hotpink2", lwd = 2,   xlim = c(0, 256), ylim = c(0,70),
      main = "Average Reach Deviation with a 60 Degree Perturbation", xlab = "Trial", ylab = "Reach Deviation (degrees)")
 
+abline (h=60, col="black", lwd = 1.5, lty=3)
 
 
