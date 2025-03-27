@@ -70,9 +70,8 @@ print(learners)
 
 
 
-#REMOVE OUTLIERS
+#REMOVE OUTLIERS 
 df1 <- aim60_data[[1]]
-
 df1$reachdeviation_deg[df1$reachdeviation_deg < 0] <- 0  
 df1$reachdeviation_deg[df1$reachdeviation_deg > 85] <- 85  
 
@@ -113,9 +112,12 @@ combinedreachdev <- do.call(cbind,all_reach_deviations)
 
 average_reach_deviation <- apply(combinedreachdev, 1, mean, na.rm = TRUE)
 
-plot(average_reach_deviation, type = "l", col = "hotpink2", lwd = 2,   xlim = c(0, 256), ylim = c(0,70),
+plot(average_reach_deviation, type = "l", col = "hotpink2", lwd = 2,   xlim = c(0, 256), ylim = c(-30,60),
      main = "Average Reach Deviation with a 60 Degree Perturbation", xlab = "Trial", ylab = "Reach Deviation (degrees)")
+#smooth_line2 <- smooth.spline(average_reach_deviation)
+#lines(smooth_line2, col = "black", lwd = 3, lty=3)
 
-abline (h=60, col="black", lwd = 1.5, lty=3)
+
+abline (h=0, col="black", lwd = 1, lty=3)
 
 
