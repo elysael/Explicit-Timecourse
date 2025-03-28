@@ -5,26 +5,46 @@ aim60files <- list.files(aim60_path, pattern = "*.csv", full.names = TRUE)
 
 all_aim_deviations <- list()
 
-
-for (i in 1:length(aim60files)) {
-  df <- read.csv(aim60files[i], stringsAsFactors = FALSE)
-  all_aim_deviations[[i]] <- df$aimdeviation_deg
-}
-
 remove_na <- function(x) {
   return(x[!is.na(x)])  # Keep only non-NA values
 }
 
-cleaned_aim <- lapply(all_aim_deviations, remove_na)
+for (i in 1:length(aim60files)) {
+  df <- read.csv(aim60files[i], stringsAsFactors = FALSE)
+  all_aim_deviations[[i]] <- remove_na(df$aimdeviation_deg)
+}
 
-combinedaimdev <- do.call(cbind,all_aim_deviations)
+
+combinedaimdev <- do.call(cbind, all_aim_deviations)
 average_aim_deviation <- apply(combinedaimdev, 1, mean, na.rm = TRUE)
 
 
-plot(average_aim_deviation, type = "l", col = "firebrick2", lwd = 2, xlim = c(0, 256), ylim = c(-30, 60),
+plot(average_aim_deviation, type = "n", col = "grey", lwd = 2, xlim = c(0, 256), ylim = c(-30, 60),
      main = "Average Aim Deviation with a 60 Degree Perturbation", xlab = "Trial", ylab = "Aim Deviation (degrees)")
-#smooth_line<- smooth.spline(average_aim_deviation)
-#lines(smooth_line, col = "black", lwd = 1)
+smooth_line<- smooth.spline(average_aim_deviation, spar = 0.32)
+lines(smooth_line, col = "black", lwd = 1)
+
+se_aim <- sd(average_aim_deviation) / sqrt(length(average_aim_deviation))
+upper_aim <- average_aim_deviation + 1.96 * se_aim
+lower_aim <- average_aim_deviation - 1.96 * se_aim
+smooth_line1 <- smooth.spline(average_aim_deviation, spar = 0.32)
+smooth_upper_aim <- smooth.spline(upper_aim, spar = 0.32)
+smooth_lower_aim <- smooth.spline(lower_aim, spar = 0.32)
+polygon(c(smooth_upper_aim$x, rev(smooth_lower_aim$x)), 
+        c(smooth_upper_aim$y, rev(smooth_lower_aim$y)), 
+        col = rgb(0, 0, 0, alpha = 0.2), border = NA) #lower alpha = more transparent
+
+
+
+rotation_start_G1 <- 89  # Rotation starts for Group 1
+rotation_start_G2 <- 105  # Rotation starts for Group 2
+
+abline(v = rotation_start_G1, col = "skyblue", lwd = 1.5, lty = 2)  # Rotation start for G1
+abline(v = rotation_start_G2, col = "firebrick2", lwd = 1.5, lty = 2)  # Rotation start for G2
+text(rotation_start_G1, 55, "G1 Rotation Start", col = "skyblue", cex = 0.8, pos = 4)
+text(rotation_start_G2, 55, "G2 Rotation Start", col = "firebrick2", cex = 0.8, pos = 4)
+#Where G2 is the participatns that got hte new paradigm (March 3)
+
 
 abline (h=0, col="black", lwd = 2, lty=3)
 
@@ -51,14 +71,22 @@ cleaned_aim <- lapply(all_aim_deviations, remove_na)
 
 combinedaimdev <- do.call(cbind,all_aim_deviations)
 
+summary(df$aimdeviation_deg)
+which(is.na(df$aimdeviation_deg))
 
 # Plot one participant to see trial by trial
-plot(cleaned_aim[[1]], , col = "deeppink", type = "p", lwd = 2,
+plot(cleaned_aim[[13]], , col = "deeppink", type = "p", lwd = 2,
      xlim = c(0, 256), ylim = c(-20, 60),
      main = "Aim Deviation with a 60 Degree Perturbation",
      xlab = "Trial", ylab = "Aim Strategy (degrees)")
 
 abline (h=0, col="black", lwd = 1.5, lty=3)
+
+#for participant 13, trials above 200 are removed? 
+plot(1:length(all_aim_deviations[[13]]), all_aim_deviations[[13]], col = "deeppink", type = "p", lwd = 2,
+     xlim = c(0, 256), ylim = c(-20, 60),
+     main = "Aim Deviation with a 60 Degree Perturbation",
+     xlab = "Trial", ylab = "Aim Strategy (degrees)")
 
 
 #8, 6, 13 has really messy data in beginning.. not sure how to go about cleaning that at the moment.
@@ -121,4 +149,5 @@ lines(smooth_line1, col = "magenta2", lwd = 3)
 lines(smooth_line2, col = "black", lwd = 3)
 legend("topright", legend = c("Aim Deviation", "Reach Deviation"), 
        col = c("magenta2", "black"), lwd = 2)
+
 abline(h = 0, col = "black", lwd = 1.5, lty = 3)
