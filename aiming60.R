@@ -41,8 +41,8 @@ rotation_start_G2 <- 105  # Rotation starts for Group 2
 
 abline(v = rotation_start_G1, col = "skyblue", lwd = 1.5, lty = 2)  # Rotation start for G1
 abline(v = rotation_start_G2, col = "firebrick2", lwd = 1.5, lty = 2)  # Rotation start for G2
-text(rotation_start_G1, 55, "G1 Rotation Start", col = "skyblue", cex = 0.8, pos = 4)
-text(rotation_start_G2, 55, "G2 Rotation Start", col = "firebrick2", cex = 0.8, pos = 4)
+text(rotation_start_G1, 55, "OG", col = "skyblue", cex = 0.8, pos = 4)
+text(rotation_start_G2, 55, "New ", col = "firebrick2", cex = 0.8, pos = 4)
 #Where G2 is the participatns that got hte new paradigm (March 3)
 
 
