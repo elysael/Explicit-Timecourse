@@ -201,7 +201,7 @@ getRotated <- function () {
   # lines for Group 2 
   lines(group2_avg$Group.1, group2_avg$x, col="red")
   
-  
+ #combine two lines into 1 plot 
   combined_data <- merge(group1_avg, group2_avg, by = "Group.1", all = TRUE)
   
   # Calculate the average of the deviations, ignoring NAs
