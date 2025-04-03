@@ -151,3 +151,127 @@ legend("topright", legend = c("Aim Deviation", "Reach Deviation"),
        col = c("magenta2", "black"), lwd = 2)
 
 abline(h = 0, col = "black", lwd = 1.5, lty = 3)
+
+
+
+
+#Extract the Aligned Phase 
+
+getAligned <- function () {
+  data_path <- "data/Instructed_summary/aiming60/"
+  remove_na <- function(x) {
+    return(x[!is.na(x)])  # Keep only non-NA values
+  
+  
+  # Group 1 file paths
+    group1_files <- file.path(data_path, c("SUMMARY_aiming60_7eec53.csv", 
+                                           "SUMMARY_aiming60_13d986.csv", "SUMMARY_aiming60_33e532.csv", 
+                                           "SUMMARY_aiming60_4093e8.csv", 
+                                           "SUMMARY_aiming60_a23b35.csv"))
+    
+    group2_files <- file.path(data_path, c("SUMMARY_aiming60_7cd1bd.csv", 
+                                           "SUMMARY_aiming60_654648.csv", "SUMMARY_aiming60_f275ca.csv"))
+  group1_data <- list()
+  group2_data <- list()
+  
+  for (file in group1_files) {
+    df <- read.csv(file, stringsAsFactors = FALSE)
+    df$cutrial_no <- as.integer(df$cutrial_no)
+    aligned <- df[df$cutrial_no >= 1 & df$cutrial_no <= 88, c("cutrial_no", "reachdeviation_deg", "aimdeviation_deg"), drop = FALSE]
+    #print(nrow(aligned)) 
+    
+    group1_data[[length(group1_data) + 1]] <- aligned
+  }
+  
+  # Extract trials for Group 2 (Trial 113 to 232)
+  for (file in group2_files) {
+    df <- read.csv(file, stringsAsFactors = FALSE)
+    aligned <- df[df$cutrial_no %in% c(1:24, 41:56, 65:72, 81:88, 97:104), c("cutrial_no", "reachdeviation_deg", "aimdeviation_deg"), drop = FALSE]
+    group2_data[[length(group2_data) + 1]] <- aligned
+  }
+  return(list(group1 = group1_data, group2 = group2_data))
+  #print(nrow(group1_data[[1]]))
+  #print(nrow(group2_data[[1]]))
+  
+}
+
+aligned_data <- getAligned()
+
+
+
+
+#Extract the Rotated Phase
+getRotated <- function () {
+  
+  data_path <- "data/Instructed_summary/aiming60/"
+  
+  group1_files <- file.path(data_path, c("SUMMARY_aiming60_7eec53.csv", 
+                                         "SUMMARY_aiming60_13d986.csv", "SUMMARY_aiming60_33e532.csv", 
+                                         "SUMMARY_aiming60_4093e8.csv", 
+                                         "SUMMARY_aiming60_a23b35.csv"))
+  
+  group2_files <- file.path(data_path, c("SUMMARY_aiming60_7cd1bd.csv", 
+                                         "SUMMARY_aiming60_654648.csv", "SUMMARY_aiming60_f275ca.csv"))
+  group1_rotated <- list()
+  group2_rotated <- list()
+  
+  # Group 1 (trial 89 to 208)
+  for (file in group1_files) {
+    df <- read.csv(file, stringsAsFactors = FALSE)
+    rotated <- df[df$cutrial_no >= 89 & df$cutrial_no <= 208,c("cutrial_no", "reachdeviation_deg", "aimdeviation_deg"), drop = FALSE]
+    group1_rotated[[length(group1_rotated) + 1]] <- rotated
+  }
+  
+  # Group 2 (trial 113 to 232)
+  for (file in group2_files) {
+    df <- read.csv(file, stringsAsFactors = FALSE)
+    rotated <- df[df$cutrial_no >= 113 & df$cutrial_no <= 232, c("cutrial_no", "reachdeviation_deg", "aimdeviation_deg"), drop = FALSE]
+    group2_rotated[[length(group2_rotated) + 1]] <- rotated
+  }
+  
+  return(list(group1 = group1_rotated, group2 = group2_rotated))
+  #print(nrow(rotated_data$group1[[1]]))
+  #print(nrow(rotated_data$group2[[1]]))
+  
+}
+rotated_data <- getRotated()
+
+
+getAfter <- function() {
+  
+  data_path <- "data/Instructed_summary/aiming60/"
+  
+  group1_files <- file.path(data_path, c("SUMMARY_aiming60_7eec53.csv", 
+                                         "SUMMARY_aiming60_13d986.csv", "SUMMARY_aiming60_33e532.csv", 
+                                         "SUMMARY_aiming60_4093e8.csv", 
+                                         "SUMMARY_aiming60_a23b35.csv"))
+  
+  group2_files <- file.path(data_path, c("SUMMARY_aiming60_7cd1bd.csv", 
+                                         "SUMMARY_aiming60_654648.csv", "SUMMARY_aiming60_f275ca.csv"))
+  
+  group1_after <- list()
+  group2_after <- list()
+  
+  # Group 1 (trial 233 to 256) left hand trials
+  for (file in group1_files) {
+    df <- read.csv(file, stringsAsFactors = FALSE)
+    after <- df[df$cutrial_no >= 209 & df$cutrial_no <= 232,c("cutrial_no", "reachdeviation_deg", "aimdeviation_deg"), drop = FALSE]
+    group1_after[[length(group1_after) + 1]] <- after
+  }
+  
+  # Group 2 (trial 113 to 232) aftereffect trials
+  for (file in group2_files) {
+    df <- read.csv(file, stringsAsFactors = FALSE)
+    after <- df[df$cutrial_no >= 233 & df$cutrial_no <= 256, c("cutrial_no", "reachdeviation_deg", "aimdeviation_deg"), drop = FALSE]
+    group2_after[[length(group2_after) + 1]] <- after
+    
+    return(list(group1 = group1_after, group2 = group2_after))
+    #print(nrow(after_data$group1[[1]]))
+    #print(nrow(after_data$group2[[1]])) 
+    
+    
+  }
+  
+}
+after_data <- getAfter()
+
