@@ -26,14 +26,11 @@ getData <- function() {
         'Instructed_all.zip',
         'Instructed_summary.zip',
         'pilot_all.zip',
-        'pilot_summary.zip'
-      )
-    ),
+        'pilot_summary.zip')),
     folder = 'data/',
     overwrite = TRUE,
     unzip = TRUE,
-    removezips = TRUE
-  )
+    removezips = TRUE)
   
- 
+}
   
