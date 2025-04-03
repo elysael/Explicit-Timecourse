@@ -308,7 +308,7 @@ plotAllAim60 <- function () {
     plot(-1000, 1000, type = "n",
          main = "Aim Deviation Across All Trials", 
          xlab = "Trial", ylab = "Aiming Startegy (degrees)",
-         xlim = c(0, 256), ylim = c(-20, 80))
+         xlim = c(0, 256), ylim = c(-20, 60))
     
     #lines(all_data$Group.1, all_data$x, col = "hotpink", lwd = 2, pch = 16)  
     all_data_clean <- all_data[!is.na(all_data$Group.1) & !is.na(all_data$x) & 
