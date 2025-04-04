@@ -28,6 +28,7 @@ df1$reachdeviation_deg[df1$reachdeviation_deg > 85] <- 85
 
 plot(df1$reachdeviation_deg, type="l")
 
+
 #apply to all participants
 
 for (i in 1:length(aim60_data)) {
@@ -35,7 +36,25 @@ for (i in 1:length(aim60_data)) {
   
   # Remove values outside the range 0 to 90 degrees
   df$reachdeviation_deg[df$reachdeviation_deg < -20] <--10
-  df$reachdeviation_deg[df$reachdeviation_deg > 85] <- 75
+  df$reachdeviation_deg[df$reachdeviation_deg > 85] <- 85
+  
+}
+
+df2 <- aim60_data[[1]]
+df1$aimhdeviation_deg[df1$reachdeviation_deg < 0] <- 0  
+df1$aimdeviation_deg[df1$reachdeviation_deg > 85] <- 85  
+
+plot(df2$aimdeviation_deg, type="l")
+
+
+#apply to all participants
+
+for (i in 1:length(aim60_data)) {
+  df <- aim60_data[[i]]
+  
+  # Remove values outside the range 0 to 90 degrees
+  df$aimdeviation_deg[df$raimdeviation_deg < -20] <--10
+  df$reachdeviation_deg[df$reachdeviation_deg > 85] <- 85
   
 }
 
@@ -91,7 +110,7 @@ print(learners)
 
 #Extract the Aligned Phase 
 
-getAligned <- function () {
+getAligned60 <- function () {
   data_path <- "data/Instructed_summary/aiming60/"
   
   # Group 1 file paths
@@ -126,13 +145,13 @@ getAligned <- function () {
   
 }
 
-aligned_data <- getAligned()
+aligned60_data <- getAligned60()
 
 
   
   
 #Extract the Rotated Phase
-getRotated <- function () {
+getRotated60 <- function () {
   
   data_path <- "data/Instructed_summary/aiming60/"
   
@@ -165,10 +184,10 @@ getRotated <- function () {
   #print(nrow(rotated_data$group2[[1]]))
 
 }
-rotated_data <- getRotated()
+rotated60_data <- getRotated60()
 
 
-getAfter <- function() {
+getAfter60 <- function() {
   
   data_path <- "data/Instructed_summary/aiming60/"
   
@@ -185,7 +204,7 @@ getAfter <- function() {
   # Group 1 (trial 233 to 256) left hand trials
   for (file in group1_files) {
     df <- read.csv(file, stringsAsFactors = FALSE)
-    after <- df[df$cutrial_no >= 209 & df$cutrial_no <= 232,c("cutrial_no", "reachdeviation_deg", "aimdeviation_deg"), drop = FALSE]
+    after <- df[df$cutrial_no >= 209 & df$cutrial_no <= 256,c("cutrial_no", "reachdeviation_deg", "aimdeviation_deg"), drop = FALSE]
     group1_after[[length(group1_after) + 1]] <- after
   }
   
@@ -201,7 +220,7 @@ getAfter <- function() {
     
     
   }
-after_data <- getAfter()
+after60_data <- getAfter60()
 
 
 
